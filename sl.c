@@ -37,10 +37,11 @@
 #include <unistd.h>
 #include "sl.h"
 
-int ACCIDENT  = 0;
-int LOGO      = 0;
-int FLY       = 0;
-int C51       = 0;
+int ACCIDENT      = 0;
+int LOGO          = 0;
+int FLY           = 0;
+int C51           = 0;
+int INTERRUPTIBLE = 0;
 
 int my_mvaddstr(int y, int x, char *str)
 {
@@ -57,10 +58,11 @@ void option(char *str)
 
     while (*str != '\0') {
 	switch (*str++) {
-	    case 'a': ACCIDENT = 1; break;
-	    case 'F': FLY      = 1; break;
-	    case 'l': LOGO     = 1; break;
-	    case 'c': C51      = 1; break;
+	    case 'a': ACCIDENT      = 1; break;
+	    case 'F': FLY           = 1; break;
+	    case 'l': LOGO          = 1; break;
+	    case 'c': C51           = 1; break;
+	    case 'e': INTERRUPTIBLE = 1; break;
 	    default:                break;
 	}
     }
@@ -76,7 +78,11 @@ int main(int argc, char *argv[])
 	}
     }
     initscr();
-    signal(SIGINT, SIG_IGN);
+
+    if (!INTERRUPTIBLE) {
+	    signal(SIGINT, SIG_IGN);
+	}
+
     noecho();
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
